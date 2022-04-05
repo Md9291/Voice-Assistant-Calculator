@@ -1,6 +1,6 @@
 """
-Project: Voice Assistant  Calculator
-@author: MOHAMMAD YUNUS
+Project:  Voice Assistant Calculator
+@author: MOHAMMAD YUNUS.
 """
 #pip install pyttsx3
 import pyttsx3
@@ -16,19 +16,17 @@ import time
 import math
 #pip install wikipedia
 import wikipedia
-#pip install pycopy-webbrowser
-import webbrowser
 
 global query
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
+engine.setProperty('voice', voices[0].id)
 
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-      
-  #it wish me at paticular time.     
+    
+    
 def wishMe():
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour<12:
@@ -64,7 +62,7 @@ def takeCommand():
 def calculator():
     global query
     try:
-        if 'addition' in query or 'add' in query:
+        if 'addition'  in query:
             speak('Enter a number')
             a = float(input("Enter a number:"))
             speak('Enter another number to add')
@@ -82,7 +80,7 @@ def calculator():
             else:
                 speak('ok')
                 
-        elif 'subtraction' or 'sub' in query:
+        elif 'subtraction' in query:
             speak('Enter a number')
             a = float(input("Enter a number:"))
             speak('Enter another number to subtract')
@@ -223,7 +221,7 @@ def calculator():
                 speak(f'{n} factorial is equal to {fact}. Your answer is {fact}.')
                 speak('Do you want to do another calculation?')
                 query = takeCommand().lower()
-                if 'yes' in query:
+                if 'y' in query:
                     speak('ok which calculation you want to do?')
                     query = takeCommand().lower()
                     calculator()
@@ -442,7 +440,7 @@ def calculator():
                 speak('Answer is infinity')
                 speak('Do you want to do another calculation?')
                 query = takeCommand().lower()
-                if 'yes' in query:
+                if 'y' in query:
                     speak('ok which calculation you want to do?')
                     query = takeCommand().lower()
                     calculator()
@@ -491,49 +489,67 @@ def calculator():
         else:
             speak('ok')
         
- 
-
+        
 if __name__ == "__main__":
-
     wishMe()
     said = True
     while said:
 
         query = takeCommand().lower()
         # logic for executing tasks based on query
-        if ('open' in query and 'youtube' in query) or ('let' in query and 'youtube' in query and 'open' in query):
-            webbrowser.open('youtube.com')
-            time.sleep(10)
-        
-        elif 'chrome' in query:
-            webbrowser.open('chrome.com')
-            time.sleep(10)
-              
-        elif 'exit' in query:
-            speak('Ok, Thank you Sir.')
-            said = False
-            speak('see you later.')
-            
-        #changes the voice =>0(female),=>1(male)
-        elif 'change' in query and 'your' in query and 'voice' in query:
-            engine.setProperty('voice', voices[0].id)
-            speak("Here's an example of one of my voices. Would you like to use this one?")
-            query = takeCommand().lower()
-            if 'yes' in query or 'sure' in query or 'of course' in query:
-                speak('Great. I will keep using this voice.')
-            elif 'no' in query:
-                speak('Ok. I am back to my other voice.')
-                engine.setProperty('voice', voices[0].id)
-            else:
-                speak('Sorry, I am having trouble understanding. I am back to my other voice.')
-                engine.setProperty('voice', voices[0].id)
-            
+        if 'wikipedia' in query:
+            speak('Searching wikipedia...')
+            query = query.replace("wikipedia","")
+            results = wikipedia.summary(query, sentences=2)
+            speak("According to Wikipedia")
+            print(results)
+            speak(results)
+   
+       
         elif 'calculat' in query:
-            speak('Yes. Which kind of calculation you want to do? additionS, substract, divide, multiply or anything else.')
+            speak('Yes. Which kind of calculation you want to do? addition, substract, divide, multiply or anything else.')
             query = takeCommand().lower()
             calculator()
             
+        elif 'add' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif '+' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open calculator.')
+        elif 'plus' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')      
+        elif 'subtrac' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif 'minus' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif 'multipl' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif ' x ' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open calculator.')
+        elif 'slash' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open calculator.')
+        elif '/' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open calculator.')
+        elif 'divi' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif 'trigonometr' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif 'percent' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')          
+        elif '%' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+        elif 'raise to ' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
+
+        elif 'simple interest' in query:
+            speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
         
+       
+        elif ('repeat' in query and ('word' in query or 'sentence' in query or 'line' in query) and ('say' in query or 'tell' in query)) or ('repeat' in query and 'after' in query and ('me' in query or 'my' in query)):
+            speak('yes sir, I will repeat your words starting from now')
+            query = takeCommand().lower()
+            speak(query)
+            time.sleep(1)
+            speak("If you again want me to repeat something else, try saying, 'repeat after me' ")        
         elif 'where do you live' in query:
             speak('I am from India, I live in laptop of Mr. Yunus')
         
@@ -542,10 +558,12 @@ if __name__ == "__main__":
             
         elif 'excellent' in query:
             speak('Thank you Dr Maheswari mam')
-        
-            #if the query is greater than 200 it says unable to answer.        
         elif len(query) >= 200:
             speak('Your voice is pretty good!')  
+        elif 'exit' in query:
+            speak('Ok, Thank you Sir.')
+            said = False
+            speak('see you later.')
         elif ' ' in query:
             try:
                 #query = query.replace("what is ","")
@@ -553,7 +571,9 @@ if __name__ == "__main__":
                 print(results)
                 speak(results)
             except Exception as e:
-                speak('I unable to answer your question.')
+                speak('I unable to answer your question.')       
                 
-                
+        else:
+            speak('I unable to give answer of your question')
+       
       
