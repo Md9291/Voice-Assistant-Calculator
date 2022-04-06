@@ -221,7 +221,7 @@ def calculator():
                 speak(f'{n} factorial is equal to {fact}. Your answer is {fact}.')
                 speak('Do you want to do another calculation?')
                 query = takeCommand().lower()
-                if 'y' in query:
+                if 'yes' in query:
                     speak('ok which calculation you want to do?')
                     query = takeCommand().lower()
                     calculator()
@@ -232,7 +232,7 @@ def calculator():
                 speak('I unable to calculate its factorial.')
                 speak('Do you want to do another calculation?')
                 query = takeCommand().lower()
-                if 'y' in query:
+                if 'yes' in query:
                     speak('ok which calculation you want to do?')
                     query = takeCommand().lower()
                     calculator()
@@ -440,7 +440,7 @@ def calculator():
                 speak('Answer is infinity')
                 speak('Do you want to do another calculation?')
                 query = takeCommand().lower()
-                if 'y' in query:
+                if 'yes' in query:
                     speak('ok which calculation you want to do?')
                     query = takeCommand().lower()
                     calculator()
@@ -542,7 +542,18 @@ if __name__ == "__main__":
 
         elif 'simple interest' in query:
             speak('If you want to do any mathematical calculation then give me a command to open my calculator.')
-        
+        elif 'change' in query and 'your' in query and 'voice' in query:
+            engine.setProperty('voice', voices[1].id)
+            speak("Here's an example of one of my voices. Would you like to use this one?")
+            query = takeCommand().lower()
+            if 'yes' in query or 'sure' in query or 'of course' in query:
+                speak('Great. I will keep using this voice.')
+            elif 'no' in query:
+                speak('Ok. I am back to my other voice.')
+                engine.setProperty('voice', voices[0].id)
+            else:
+                speak('Sorry, I am having trouble understanding. I am back to my other voice.')
+                engine.setProperty('voice', voices[0].id)
        
         elif ('repeat' in query and ('word' in query or 'sentence' in query or 'line' in query) and ('say' in query or 'tell' in query)) or ('repeat' in query and 'after' in query and ('me' in query or 'my' in query)):
             speak('yes sir, I will repeat your words starting from now')
